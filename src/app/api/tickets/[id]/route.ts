@@ -1,10 +1,9 @@
 import Ticket from "@/models/ticket.model";
 import { NextResponse } from "next/server";
 
-// Adjust the type of `params` to match Next.js requirements
+// Correct GET handler
 export async function GET(
   request: Request,
-  response: Response,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -35,7 +34,6 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  response: Response,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -52,7 +50,6 @@ export async function PUT(
     const ticketData = body.formData;
 
     await Ticket.findByIdAndUpdate(id, ticketData);
-    // sendEmail(ticketData.title, ticketData.description);
     return NextResponse.json({ message: "Ticket updated" }, { status: 200 });
   } catch (error) {
     console.error(error);
@@ -62,7 +59,6 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  response: Response,
   { params }: { params: { id: string } }
 ) {
   try {
