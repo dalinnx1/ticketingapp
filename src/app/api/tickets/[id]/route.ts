@@ -1,36 +1,37 @@
 import Ticket from "@/models/ticket.model";
+//import { sendEmail } from "@/utils/sendEmail";
 import { NextResponse } from "next/server";
-
 type Params = { id: string };
 
-export async function GET(request: Request, context: { params: Params }) {
-  const { id } = context.params;
+export async function GET(request: Request, { params }: { params: Params }) {
+  const { id } = await params;
 
   const foundTicket = await Ticket.findOne({ _id: id });
-  if (!foundTicket) {
-    return NextResponse.json({ message: "Ticket not found" }, { status: 404 });
-  }
   const ticket = foundTicket.toObject();
   return NextResponse.json({ ...ticket }, { status: 200 });
 }
 
-export async function PUT(request: Request, context: { params: Params }) {
+export async function PUT(request: Request, { params }: { params: Params }) {
   try {
-    const { id } = context.params;
+    const { id } = await params;
+
     const body = await request.json();
     const ticketData = body.formData;
 
-    await Ticket.findByIdAndUpdate(id, { ...ticketData });
+    await Ticket.findByIdAndUpdate(id, {
+      ...ticketData,
+    });
+    //sendEmail(ticketData.title, ticketData.description);
     return NextResponse.json({ message: "Ticket updated" }, { status: 200 });
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
 }
 
-export async function DELETE(request: Request, context: { params: Params }) {
+export async function DELETE(request: Request, { params }: { params: Params }) {
   try {
-    const { id } = context.params;
+    const { id } = await params;
 
     await Ticket.findByIdAndDelete(id);
     return NextResponse.json({ message: "Ticket Deleted" }, { status: 200 });
