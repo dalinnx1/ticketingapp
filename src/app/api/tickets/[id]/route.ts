@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 // Adjust the type of `params` to match Next.js requirements
 export async function GET(
   request: Request,
+  response: Response,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -34,6 +35,7 @@ export async function GET(
 
 export async function PUT(
   request: Request,
+  response: Response,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -60,6 +62,7 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
+  response: Response,
   { params }: { params: { id: string } }
 ) {
   try {
