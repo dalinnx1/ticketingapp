@@ -1,37 +1,28 @@
-import Ticket from "@/models/ticket.model";
+import EditTicketForm from "@/components/TicketForm";
+import { TicketType } from "@/models/ticket.model";
+import { getTicket } from "@/utils/getTickets";
 
-type Params = {
-  id: string;
-};
+type Params = { id: string };
+let updateTicketData: TicketType;
 
-// Assuming this is a server-side function for fetching ticket data
-export async function getServerSideProps({ params }: { params: Params }) {
-  const { id } = params;
+export default async function TicketPage({ params }: { params: Params }) {
+  const { id } = await params;
+  const EDITMODE = id === "new" ? false : true;
 
-  const ticket = await Ticket.findById(id).lean(); // Use lean() to get plain JS object
-  if (!ticket) {
-    return {
-      notFound: true,
+  if (EDITMODE) {
+    updateTicketData = await getTicket(id);
+  } else {
+    updateTicketData = {
+      _id: "new",
+      title: "",
+      description: "",
+      category: "",
+      priority: 0,
+      progress: 0,
+      active: true,
+      status: "",
     };
   }
 
-  return {
-    props: {
-      ticket,
-    },
-  };
+  return <EditTicketForm ticket={updateTicketData} />;
 }
-
-// Your component
-const TicketPage = ({ ticket }: { ticket: any }) => {
-  return (
-    <div>
-      <h1>Ticket Details</h1>
-      <p>Title: {ticket.title}</p>
-      <p>Description: {ticket.description}</p>
-      {/* Render other ticket details here */}
-    </div>
-  );
-};
-
-export default TicketPage;
