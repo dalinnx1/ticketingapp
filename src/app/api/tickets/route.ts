@@ -1,7 +1,7 @@
 import { connectToDB } from "@/utils/database";
 import Ticket from "@/models/ticket.model";
 import { NextResponse } from "next/server";
-//import { sendEmail } from "@/utils/sendEmail";
+import { sendEmail } from "@/utils/sendEmail";
 
 export async function GET() {
   try {
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const ticketData = body.formData;
     const ticket = new Ticket(ticketData);
     await ticket.save();
-    //sendEmail(ticketData.title, ticketData.description);
+    sendEmail(ticketData.title, ticketData.description);
     return NextResponse.json({ message: "Ticket Created" }, { status: 201 });
   } catch (error) {
     console.error(error);

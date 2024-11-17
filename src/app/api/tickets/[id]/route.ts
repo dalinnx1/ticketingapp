@@ -1,5 +1,5 @@
 import Ticket from "@/models/ticket.model";
-//import { sendEmail } from "@/utils/sendEmail";
+import { sendEmail } from "@/utils/sendEmail";
 import { NextResponse } from "next/server";
 type Params = { id: string };
 
@@ -21,7 +21,7 @@ export async function PUT(request: Request, { params }: { params: Params }) {
     await Ticket.findByIdAndUpdate(id, {
       ...ticketData,
     });
-    //sendEmail(ticketData.title, ticketData.description);
+    sendEmail(ticketData.title, ticketData.description);
     return NextResponse.json({ message: "Ticket updated" }, { status: 200 });
   } catch (error) {
     console.log(error);
