@@ -25,7 +25,7 @@ export default function EditTicketForm({ ticket }: { ticket: TicketType }) {
   }
 
   const [formData, setFormData] = useState(startingTicketData);
-  const [selectedEmail, setSelectedEmail] = useState("");
+  const [selectedEmail, setSelectedEmail] = useState("dalinnx1@gmail.com");
 
   function handleChange(
     e: React.ChangeEvent<
